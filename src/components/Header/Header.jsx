@@ -1,6 +1,6 @@
-import "../styles/dark.css";
+import "./header.css"
 
-const Header = () => {
+const Header = ({toggleTheme}) => {
   return (
     <div className="header-container">
       <h1 className="header-text">The Flag app</h1>
@@ -30,7 +30,9 @@ const Header = () => {
             />
           </g>
         </svg>
-        <span className="header-button-text">Dark Mode</span>
+        <button className="header-button-text" onClick={toggleTheme}>
+            Dark Mode
+          </button>
       </button>
     </div>
   );

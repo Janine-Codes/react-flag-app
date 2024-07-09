@@ -13,6 +13,7 @@ const HomePage = () => {
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState("");
 
+
   useEffect(() => {
     const fetchCountries = async () => {
       try {
