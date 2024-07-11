@@ -8,6 +8,8 @@ import Search from "../../components/search/Search";
 import Dropdown from "../../components/dropdown/Dropdown";
 import React, { useState, useEffect } from "react";
 import "./homepage.css";
+import { Link } from 'react-router-dom';
+
 
 const HomePage = () => {
   const [allCountries, setAllCountries] = useState([]);
@@ -67,15 +69,17 @@ const HomePage = () => {
       </div>
       <div className="country-cards">
         {filteredCountries.map((country) => (
-          <CountryCard
-            key={country.name}
-            flag={country.flag}
-            name={country.name}
-            population={country.population}
-            region={country.region}
-            capital={country.capital}
-          />
-        ))}
+          <Link to={`/country/${country.cca3}`} key={country.cca3}> 
+            <CountryCard
+              key={country.name}
+              flag={country.flag}
+              name={country.name}
+              population={country.population}
+              region={country.region}
+              capital={country.capital}
+            />
+          </Link>
+))}
       </div>
     </div>
   );

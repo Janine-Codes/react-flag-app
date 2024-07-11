@@ -4,7 +4,7 @@ const baseUrl = "https://restcountries.com/v3.1";
 export const getAllCountries = async () => {
   try {
     const response = await fetch(
-      `${baseUrl}/all?fields=flags,name,population,region,capital`
+      `${baseUrl}/all?fields=flags,name,population,region,capital,cca3`
     );
     if (!response.ok) {
       throw new Error("Failed to get all countries");
@@ -13,6 +13,7 @@ export const getAllCountries = async () => {
 
     const extractedData = data.map((country) => ({
       flag: country.flags ? country.flags.png : "No Flag",
+      cca3: country.cca3,
       name: country.name.common,
       population: country.population,
       region: country.region,
@@ -29,20 +30,37 @@ export const getAllCountries = async () => {
   }
 };
 
+export const getCountryByCountryCode = async (name) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/alpha/${name}`
+    )
+    if (!response.ok) {
+      throw new Error(`Failed to get country by name: ${name} `);
+    }
+    const data = await response.json();
+    return data
+
+  } catch (error) {
+    console.error("Error when trying to get country by name", error.message);
+    throw error;
+  }
+}
+
 // Function to search countries by name
 export const searchCountries = async (search) => {
   try {
     let url;
     if (search.length === 1) {
-      url = `${baseUrl}/name/${search}*?fields=flags,name,population,region,capital`;
+      url = `${baseUrl}/name/${search}*?fields=flags,name,population,region,capital,cca3`;
     } else if (search.length > 1) {
-      url = `${baseUrl}/name/${search}?fields=flags,name,population,region,capital`;
+      url = `${baseUrl}/name/${search}?fields=flags,name,population,region,capital,cca3`;
     } else {
       return [];
     }
 
     const response = await fetch(
-      `${baseUrl}/name/${search}?fields=flags,name,population,region,capital`
+      `${baseUrl}/name/${search}?fields=flags,name,population,region,capital,cca3`
     );
     if (!response.ok) {
       throw new Error("Failed to get countries");
@@ -74,9 +92,9 @@ export const countriesByRegion = async (region) => {
   try {
     let url;
     if (region === "all") {
-      url = `${baseUrl}/all?fields=flags,name,population,region,capital`;
+      url = `${baseUrl}/all?fields=flags,name,population,region,capital,cca3`;
     } else {
-      url = `${baseUrl}/region/${region}?fields=flags,name,population,region,capital`;
+      url = `${baseUrl}/region/${region}?fields=flags,name,population,region,capital,cca3`;
     }
 
     const response = await fetch(url);
@@ -89,6 +107,7 @@ export const countriesByRegion = async (region) => {
 
     const extractedData = data.map((country) => ({
       flag: country.flags.png,
+      cca3: country.cca3,
       name: country.name.common,
       population: country.population,
       region: country.region,
