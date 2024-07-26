@@ -66,15 +66,14 @@ const HomePage = () => {
 
   return (
     <div className="homepage-container">
+      <div className="search-container">
+        <Search onSearch={handleSearch} />
+        <Dropdown
+          regions={["all", "africa", "america", "asia", "europe", "oceania"]}
+          onSelect={handleRegionChange}
+        />
+      </div>
       <div className="country-cards">
-        <div className="search-container">
-          <Search onSearch={handleSearch} />
-          <Dropdown
-            regions={["all", "africa", "america", "asia", "europe", "oceania"]}
-            onSelect={handleRegionChange}
-          />
-        </div>
-
         {loading
           ? Array(12)
               .fill()
